@@ -8,24 +8,52 @@ const ITEMS_PER_PAGE = 10;
 
 export default function ProjectList({ projects }) {
   const search = useProjectStore((state) => state.search);
+  const sortBy = useProjectStore((state) => state.sortBy);
 
   const filteredProjects = projects.filter((project) =>
     project.title.toLowerCase().includes(search.toLowerCase()),
   );
+
   const [currentPage, setCurrentPage] = useState(1);
 
+    const countByType = (incidents = [], type) =>
+    incidents.filter(
+      (item) => item.item.toLowerCase() === type && item.status === "active",
+    ).length;
+
+
+  const sortedProjects = [...filteredProjects].sort((a, b) => {
+    switch (sortBy) {
+      case "incidents":
+        return (
+          countByType(b.incidents, "incidents") -
+          countByType(a.incidents, "incidents")
+        );
+
+      case "rfi":
+        return (
+          countByType(b.incidents, "rfi") - countByType(a.incidents, "rfi")
+        );
+
+      case "tasks":
+        return (
+          countByType(b.incidents, "task") - countByType(a.incidents, "task")
+        );
+
+      case "alphabetical":
+      default:
+        return a.title.localeCompare(b.title);
+    }
+  });
+
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedProjects = filteredProjects.slice(
+  const paginatedProjects = sortedProjects.slice(
     startIndex,
     startIndex + ITEMS_PER_PAGE,
   );
 
   const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
 
-  const countByType = (incidents = [], type) =>
-    incidents.filter(
-      (item) => item.item.toLowerCase() === type && item.status === "active",
-    ).length;
 
   return (
     <section className={styles.container}>
