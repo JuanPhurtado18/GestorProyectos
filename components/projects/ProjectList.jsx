@@ -2,25 +2,29 @@
 
 import { useState } from "react";
 import styles from "./ProjectList.module.css";
+import { useProjectStore } from "../store/useProjectStore";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function ProjectList({ projects }) {
+  const search = useProjectStore((state) => state.search);
+
+  const filteredProjects = projects.filter((project) =>
+    project.title.toLowerCase().includes(search.toLowerCase()),
+  );
   const [currentPage, setCurrentPage] = useState(1);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedProjects = projects.slice(
+  const paginatedProjects = filteredProjects.slice(
     startIndex,
-    startIndex + ITEMS_PER_PAGE
+    startIndex + ITEMS_PER_PAGE,
   );
 
-  const totalPages = Math.ceil(projects.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
 
   const countByType = (incidents = [], type) =>
     incidents.filter(
-      (item) =>
-        item.item.toLowerCase() === type &&
-        item.status === "active"
+      (item) => item.item.toLowerCase() === type && item.status === "active",
     ).length;
 
   return (
@@ -28,7 +32,7 @@ export default function ProjectList({ projects }) {
       {/* HEADER */}
       <header className={styles.header}>
         <h2>Mis proyectos</h2>
-        <span>{projects.length} Proyectos</span>
+        <span>{filteredProjects.length} Proyectos</span>
       </header>
 
       {/* COLUMNAS */}
@@ -75,32 +79,24 @@ export default function ProjectList({ projects }) {
               </div>
             ))}
             {project.users?.length > 3 && (
-              <span className={styles.more}>
-                +{project.users.length - 3}
-              </span>
+              <span className={styles.more}>+{project.users.length - 3}</span>
             )}
           </div>
 
           {/* Ítems por vencer */}
           <div className={styles.dueItems}>
             <div className={styles.dueItem}>
-              <strong>
-                {countByType(project.incidents, "incidents")}
-              </strong>
+              <strong>{countByType(project.incidents, "incidents")}</strong>
               <span>Incidencias</span>
             </div>
 
             <div className={styles.dueItem}>
-              <strong>
-                {countByType(project.incidents, "rfi")}
-              </strong>
+              <strong>{countByType(project.incidents, "rfi")}</strong>
               <span>RFI</span>
             </div>
 
             <div className={styles.dueItem}>
-              <strong>
-                {countByType(project.incidents, "task")}
-              </strong>
+              <strong>{countByType(project.incidents, "task")}</strong>
               <span>Tareas</span>
             </div>
           </div>
@@ -121,9 +117,7 @@ export default function ProjectList({ projects }) {
         </span>
 
         <button
-          onClick={() =>
-            setCurrentPage((p) => Math.min(p + 1, totalPages))
-          }
+          onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
           disabled={currentPage === totalPages}
         >
           Siguiente
