@@ -1,5 +1,6 @@
 import ProjectList from "../../components/projects/ProjectList";
 import data from "../../mock_data.json";
+import SearchBar from "../../components/projects/SearchBar";
 
 export default function Home() {
   const projects = data.projects ?? data;
@@ -7,6 +8,7 @@ export default function Home() {
   return (
     <main>
       <h1>Listado de Proyectos</h1>
+      <SearchBar />
       <ProjectList projects={projects} />
     </main>
   );
