@@ -43,10 +43,15 @@ body {
 /* ===== TOPBAR ===== */
 .topbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end; /* TODO A LA DERECHA */
   align-items: center;
-  margin-bottom: 14px;
-  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.topbarRight {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 /* select */

@@ -1,0 +1,19 @@
+.searchBox {
+  position: relative;
+}
+
+.searchBox input {
+  padding: 10px 38px 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #e4e4e4;
+  width: 240px;
+  font-size: 14px;
+}
+
+.icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.6;
+}

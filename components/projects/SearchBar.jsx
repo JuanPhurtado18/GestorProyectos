@@ -1,19 +1,19 @@
 "use client";
-
 import { useProjectStore } from "../store/useProjectStore";
+import styles from "./SearchBar.module.css";
 
 export default function SearchBar() {
-  const search = useProjectStore((state) => state.search);
-  const setSearch = useProjectStore((state) => state.setSearch);
+  const search = useProjectStore((s) => s.search);
+  const setSearch = useProjectStore((s) => s.setSearch);
 
   return (
-    <div>
+    <div className={styles.searchBox}>
       <input
-        type="text"
-        placeholder="Buscar proyecto"
+        placeholder="Buscar"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
+      <span className={styles.icon}>🔍</span>
     </div>
   );
 }
