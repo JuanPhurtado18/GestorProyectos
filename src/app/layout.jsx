@@ -1,5 +1,7 @@
 import "./globals.css";
 import "mapbox-gl/dist/mapbox-gl.css";
+import Navbar from "../../components/layout/Header";
+import Footer from "../../components/layout/Footer";
 
 export const metadata = {
   title: "Create Next App",
@@ -9,7 +11,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Navbar />
+        <main className="mainContent">{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }
