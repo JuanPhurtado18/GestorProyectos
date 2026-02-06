@@ -3,6 +3,7 @@
 import { useState } from "react";
 import styles from "./ProjectList.module.css";
 import { useProjectStore } from "../store/useProjectStore";
+import Swal from "sweetalert2";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -14,6 +15,8 @@ export default function ProjectList({ projects }) {
     (state) => state.setSelectedProject,
   );
 
+  const mapVisible = useProjectStore((state) => state.mapVisible); // 👈 mapa activo
+
   const [currentPage, setCurrentPage] = useState(1);
 
   // 🔎 filtro búsqueda
@@ -21,7 +24,7 @@ export default function ProjectList({ projects }) {
     project.title.toLowerCase().includes(search.toLowerCase()),
   );
 
-  // 🧠 contar incidencias por tipo
+  // 🧠 contar incidencias
   const countByType = (incidents = [], type) =>
     incidents.filter(
       (item) => item.item.toLowerCase() === type && item.status === "active",
@@ -57,12 +60,24 @@ export default function ProjectList({ projects }) {
   );
   const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
 
-  // 🎯 seleccionar / deseleccionar proyecto
+  // 🎯 seleccionar proyecto SOLO si mapa activo
   const handleSelect = (project) => {
+    // 🚨 mapa apagado
+    if (!mapVisible) {
+      Swal.fire({
+        icon: "info",
+        title: "Mapa desactivado",
+        text: "Debes activar el mapa para seleccionar un proyecto",
+        confirmButtonColor: "#ffb200",
+      });
+      return;
+    }
+
+    // 🔁 toggle selección
     if (selectedProject && selectedProject._id === project._id) {
-      setSelectedProject(null); // deselecciona
+      setSelectedProject(null); // deselecciona -> muestra todos
     } else {
-      setSelectedProject(project); // selecciona
+      setSelectedProject(project);
     }
   };
 
@@ -84,7 +99,9 @@ export default function ProjectList({ projects }) {
 
       {/* filas */}
       {paginatedProjects.map((project) => {
-        const isActive = selectedProject?._id === project._id;
+        const isActive =
+          mapVisible && selectedProject?._id === project._id; 
+          // 👆 solo activo si mapa encendido
 
         return (
           <article
