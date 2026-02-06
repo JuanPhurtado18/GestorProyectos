@@ -1,4 +1,3 @@
-/* ===== CONTAINER ===== */
 .container {
   display: flex;
   flex-direction: column;
@@ -6,7 +5,7 @@
   margin-top: 6px;
 }
 
-/* ===== HEADER ===== */
+
 .header {
   display: flex;
   align-items: center;
@@ -27,7 +26,7 @@
   border-radius: 20px;
 }
 
-/* ===== COLUMNAS ===== */
+
 .columns {
   display: grid;
   grid-template-columns: 3fr 1fr 1fr 1.5fr 3fr;
@@ -37,7 +36,7 @@
   font-weight: 600;
 }
 
-/* ===== ROW ===== */
+
 .row {
   display: grid;
   grid-template-columns: 3fr 1fr 1fr 1.5fr 3fr;
@@ -47,6 +46,7 @@
   align-items: center;
   border: 1px solid #ececec;
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .row:hover {
@@ -54,7 +54,15 @@
   transform: translateY(-2px);
 }
 
-/* ===== PROJECT INFO ===== */
+
+.activeRow {
+  border: 2px solid #ffb200;
+  background: #fff8e6;
+  box-shadow: 0 10px 26px rgba(255,178,0,0.25);
+  transform: translateY(-1px);
+}
+
+
 .projectInfo {
   display: flex;
   flex-direction: column;
@@ -72,7 +80,7 @@
   color: #9a9a9a;
 }
 
-/* ===== BADGES ===== */
+
 .badge {
   padding: 5px 12px;
   border-radius: 999px;
@@ -81,19 +89,19 @@
   width: fit-content;
 }
 
-/* plan naranja */
+
 .plan {
   background: #ffe6bf;
   color: #b76b00;
 }
 
-/* estado activo verde */
+
 .status {
   background: #e3f6e8;
   color: #239a3b;
 }
 
-/* ===== TEAM ===== */
+
 .team {
   display: flex;
   align-items: center;
@@ -124,7 +132,7 @@
   color: #666;
 }
 
-/* ===== ITEMS ===== */
+
 .dueItems {
   display: flex;
   gap: 32px;
@@ -147,7 +155,7 @@
   color: #8f8f8f;
 }
 
-/* ===== PAGINACIÓN ===== */
+
 .pagination {
   display: flex;
   justify-content: center;

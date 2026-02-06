@@ -11,7 +11,6 @@ export default function ProjectMap({ projects }) {
   const map = useRef(null);
   const selectedProject = useProjectStore((state) => state.selectedProject);
 
-  // crear mapa
   useEffect(() => {
     if (map.current) return;
 
@@ -32,14 +31,23 @@ export default function ProjectMap({ projects }) {
 
       new mapboxgl.Marker({ color: "#FFD23F" })
         .setLngLat([lng, lat])
-        .setPopup(new mapboxgl.Popup().setHTML(`<strong>${project.title}</strong>`))
+        .setPopup(
+          new mapboxgl.Popup().setHTML(`<strong>${project.title}</strong>`),
+        )
         .addTo(map.current);
     });
   }, [projects]);
 
-  // mover mapa al hacer click en proyecto
   useEffect(() => {
-    if (!selectedProject || !map.current) return;
+    if (!map.current) return;
+    if (!selectedProject) {
+      map.current.flyTo({
+        style: "mapbox://styles/mapbox/satellite-streets-v12",
+        center: [-99.13, 19.43],
+        zoom: 2,
+      });
+      return;
+    }
 
     const lat = selectedProject.position?.lat;
     const lng = selectedProject.position?.lng;
