@@ -9,6 +9,7 @@ const ITEMS_PER_PAGE = 10;
 export default function ProjectList({ projects }) {
   const search = useProjectStore((state) => state.search);
   const sortBy = useProjectStore((state) => state.sortBy);
+  const setSelectedProject = useProjectStore((state) => state.setSelectedProject);
 
   const filteredProjects = projects.filter((project) =>
     project.title.toLowerCase().includes(search.toLowerCase()),
@@ -16,30 +17,19 @@ export default function ProjectList({ projects }) {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-    const countByType = (incidents = [], type) =>
+  const countByType = (incidents = [], type) =>
     incidents.filter(
       (item) => item.item.toLowerCase() === type && item.status === "active",
     ).length;
 
-
   const sortedProjects = [...filteredProjects].sort((a, b) => {
     switch (sortBy) {
       case "incidents":
-        return (
-          countByType(b.incidents, "incidents") -
-          countByType(a.incidents, "incidents")
-        );
-
+        return countByType(b.incidents, "incidents") - countByType(a.incidents, "incidents");
       case "rfi":
-        return (
-          countByType(b.incidents, "rfi") - countByType(a.incidents, "rfi")
-        );
-
+        return countByType(b.incidents, "rfi") - countByType(a.incidents, "rfi");
       case "tasks":
-        return (
-          countByType(b.incidents, "task") - countByType(a.incidents, "task")
-        );
-
+        return countByType(b.incidents, "task") - countByType(a.incidents, "task");
       case "alphabetical":
       default:
         return a.title.localeCompare(b.title);
@@ -47,23 +37,16 @@ export default function ProjectList({ projects }) {
   });
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedProjects = sortedProjects.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE,
-  );
-
+  const paginatedProjects = sortedProjects.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
-
 
   return (
     <section className={styles.container}>
-      {/* HEADER */}
       <header className={styles.header}>
         <h2>Mis proyectos</h2>
         <span>{filteredProjects.length} Proyectos</span>
       </header>
 
-      {/* COLUMNAS */}
       <div className={styles.columns}>
         <span>Proyecto</span>
         <span>Plan</span>
@@ -72,9 +55,13 @@ export default function ProjectList({ projects }) {
         <span>Por vencer</span>
       </div>
 
-      {/* LISTADO */}
       {paginatedProjects.map((project) => (
-        <article key={project._id} className={styles.row}>
+        <article
+          key={project._id}
+          className={styles.row}
+          onClick={() => setSelectedProject(project)}
+          style={{ cursor: "pointer" }}
+        >
           {/* Proyecto */}
           <div className={styles.projectInfo}>
             <strong>{project.title}</strong>
@@ -100,10 +87,7 @@ export default function ProjectList({ projects }) {
           <div className={styles.team}>
             {project.users?.slice(0, 3).map((user, index) => (
               <div key={index} className={styles.avatar}>
-                {user.name
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")}
+                {user.name.split(" ").map((n) => n[0]).join("")}
               </div>
             ))}
             {project.users?.length > 3 && (
@@ -111,7 +95,7 @@ export default function ProjectList({ projects }) {
             )}
           </div>
 
-          {/* Ítems por vencer */}
+          {/* Ítems */}
           <div className={styles.dueItems}>
             <div className={styles.dueItem}>
               <strong>{countByType(project.incidents, "incidents")}</strong>
@@ -131,7 +115,6 @@ export default function ProjectList({ projects }) {
         </article>
       ))}
 
-      {/* PAGINACIÓN */}
       <footer className={styles.pagination}>
         <button
           onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
@@ -140,9 +123,7 @@ export default function ProjectList({ projects }) {
           Anterior
         </button>
 
-        <span>
-          Página {currentPage} de {totalPages}
-        </span>
+        <span>Página {currentPage} de {totalPages}</span>
 
         <button
           onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
