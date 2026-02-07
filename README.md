@@ -110,7 +110,7 @@ http://localhost:3000
 # 🌐 6. Demo en producción
 
 Deploy en Vercel:  
-[👉 (pega aquí tu link de Vercel)](https://gestor-proyectos-amber.vercel.app/)
+👉 https://gestor-proyectos-amber.vercel.app/
 
 ---
 
