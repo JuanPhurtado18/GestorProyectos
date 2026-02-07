@@ -13,7 +13,7 @@ La aplicación permite a los usuarios:
 * Navegar entre ubicaciones
 
 ---
-🎯 ¿Qué hace la aplicación?
+# 🎯 ¿Qué hace la aplicación?
 
 Permite visualizar proyectos y su información clave (equipo, incidencias, tareas, RFI) junto con su ubicación en un mapa interactivo, facilitando el seguimiento y monitoreo visual de múltiples proyectos.
 
