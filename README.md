@@ -77,7 +77,7 @@ Obtén tu token en:
 npm run dev
 ```
 
-Abrir en navegador:
+### 5. Abrir en navegador:
 
 ```
 http://localhost:3000
