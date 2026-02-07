@@ -23,7 +23,6 @@ export default function ProjectMap({ projects }) {
 
     map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
 
-    // marcadores
     projects.forEach((project) => {
       const lat = project.position?.lat;
       const lng = project.position?.lng;

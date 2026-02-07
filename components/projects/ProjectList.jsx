@@ -19,18 +19,18 @@ export default function ProjectList({ projects }) {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  // 🔎 filtro búsqueda
+  
   const filteredProjects = projects.filter((project) =>
     project.title.toLowerCase().includes(search.toLowerCase()),
   );
 
-  // 🧠 contar incidencias
+  
   const countByType = (incidents = [], type) =>
     incidents.filter(
       (item) => item.item.toLowerCase() === type && item.status === "active",
     ).length;
 
-  // 🔀 orden
+  
   const sortedProjects = [...filteredProjects].sort((a, b) => {
     switch (sortBy) {
       case "incidents":
@@ -52,7 +52,7 @@ export default function ProjectList({ projects }) {
     }
   });
 
-  // 📄 paginación
+ 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedProjects = sortedProjects.slice(
     startIndex,
@@ -60,9 +60,9 @@ export default function ProjectList({ projects }) {
   );
   const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
 
-  // 🎯 seleccionar proyecto SOLO si mapa activo
+  
   const handleSelect = (project) => {
-    // 🚨 mapa apagado
+    
     if (!mapVisible) {
       Swal.fire({
         icon: "info",
@@ -73,9 +73,9 @@ export default function ProjectList({ projects }) {
       return;
     }
 
-    // 🔁 toggle selección
+    
     if (selectedProject && selectedProject._id === project._id) {
-      setSelectedProject(null); // deselecciona -> muestra todos
+      setSelectedProject(null); 
     } else {
       setSelectedProject(project);
     }
@@ -88,7 +88,7 @@ export default function ProjectList({ projects }) {
         <span>{filteredProjects.length} Proyectos</span>
       </header>
 
-      {/* columnas */}
+      
       <div className={styles.columns}>
         <span>Proyecto</span>
         <span>Plan</span>
@@ -97,11 +97,11 @@ export default function ProjectList({ projects }) {
         <span>Por vencer</span>
       </div>
 
-      {/* filas */}
+      
       {paginatedProjects.map((project) => {
         const isActive =
           mapVisible && selectedProject?._id === project._id; 
-          // 👆 solo activo si mapa encendido
+         
 
         return (
           <article
@@ -110,7 +110,7 @@ export default function ProjectList({ projects }) {
             className={`${styles.row} ${isActive ? styles.activeRow : ""}`}
             style={{ cursor: "pointer" }}
           >
-            {/* Proyecto */}
+           
             <div className={styles.projectInfo}>
               <strong>{project.title}</strong>
               <span>
@@ -121,17 +121,17 @@ export default function ProjectList({ projects }) {
               </span>
             </div>
 
-            {/* Plan */}
+           
             <span className={`${styles.badge} ${styles.plan}`}>
               {project.projectPlanData?.plan}
             </span>
 
-            {/* Estado */}
+            
             <span className={`${styles.badge} ${styles.status}`}>
               {project.status}
             </span>
 
-            {/* Equipo */}
+           
             <div className={styles.team}>
               {project.users?.slice(0, 3).map((user, index) => (
                 <div key={index} className={styles.avatar}>
@@ -146,7 +146,7 @@ export default function ProjectList({ projects }) {
               )}
             </div>
 
-            {/* items */}
+          
             <div className={styles.dueItems}>
               <div className={styles.dueItem}>
                 <strong>{countByType(project.incidents, "incidents")}</strong>
@@ -167,7 +167,7 @@ export default function ProjectList({ projects }) {
         );
       })}
 
-      {/* paginación */}
+    
       <footer className={styles.pagination}>
         <button
           onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}

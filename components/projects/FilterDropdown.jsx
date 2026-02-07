@@ -26,12 +26,10 @@ export default function FilterDropdown() {
 
   return (
     <div className={styles.wrapper} ref={ref}>
-      {/* ICONO FILTRO */}
       <button className={styles.iconBtn} onClick={() => setOpen(!open)}>
         ☰
       </button>
 
-      {/* DROPDOWN */}
       {open && (
         <div className={styles.dropdown}>
           {options.map((opt) => (

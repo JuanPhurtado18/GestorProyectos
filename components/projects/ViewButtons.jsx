@@ -8,12 +8,8 @@ export default function ViewButtons() {
 
   return (
     <div className={styles.wrapper}>
-      {/* BOTON CENTRO (decorativo) */}
-      <button className={styles.iconBtn}>
-        ☷
-      </button>
+      <button className={styles.iconBtn}>☷</button>
 
-      {/* BOTON MAPA */}
       <button
         className={`${styles.iconBtn} ${mapVisible ? styles.active : ""}`}
         onClick={toggleMap}
